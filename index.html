@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Prototype - Law Student CV</title>
+    <style>
+        :root {
+            --bg-color: #0f1115;
+            --card-bg: #181c24;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --accent: #38bdf8;
+            --border: #2f3748;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Top Bar / Persistent Contact Links */
+        header {
+            background: rgba(24, 28, 36, 0.9);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+        }
+
+        .profile-title h1 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+        }
+
+        .profile-title p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .contact-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Prototype Layout Toggles */
+        .tab-bar {
+            background: #12151b;
+            padding: 0.75rem 2rem;
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Main View Container */
+        .view-container {
+            flex: 1;
+            position: relative;
+            display: none;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        .view-container.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Slider Controls */
+        .slider-control-container {
+            padding: 1.5rem 2rem;
+            background: rgba(24, 28, 36, 0.5);
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .slider-control-container label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            max-width: 600px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
+        /* --- OPTION A: Horizontal Strip Styles --- */
+        .horizontal-track {
+            display: flex;
+            gap: 2rem;
+            transition: transform 0.3s ease-out;
+            align-items: center;
+            height: 100%;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        .horizontal-card {
+            min-width: 300px;
+            max-width: 300px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        /* --- OPTION B: Vertical Winding Path Styles --- */
+        .vertical-track {
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .vertical-track::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+            transform: translateX(-50%);
+        }
+
+        .vertical-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            width: 45%;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .vertical-card:nth-child(odd) {
+            margin-left: 0;
+        }
+
+        .vertical-card:nth-child(even) {
+            margin-left: 55%;
+        }
+
+        /* --- OPTION C: Dossier / Chapter Flow Styles --- */
+        .dossier-container {
+            max-width: 700px;
+            margin: 0 auto;
+            width: 100%;
+            text-align: center;
+        }
+
+        .dossier-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2.5rem;
+            display: none;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .dossier-card.active-chapter {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-tag {
+            font-size: 0.75rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 1.25rem;
+        }
+
+        .card-link {
+            display: inline-block;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .card-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Persistent Header with Permanent Links -->
+    <header>
+        <div class="profile-title">
+            <h1>Your Name</h1>
+            <p>Law Student & Builder</p>
+        </div>
+        <div class="contact-links">
+            <a href="mailto:your.email@law.com">Email</a>
+            <a href="tel:+1234567890">Phone</a>
+            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+            <a href="https://github.com" target="_blank">GitHub</a>
+            <a href="https://substack.com" target="_blank">Substack</a>
+        </div>
+    </header>
+
+    <!-- Tab Selector -->
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('optionA')">Option A: Horizontal Strip</button>
+        <button class="tab-btn" onclick="switchTab('optionB')">Option B: Vertical Path</button>
+        <button class="tab-btn" onclick="switchTab('optionC')">Option C: Dossier Flow</button>
+    </div>
+
+    <!-- OPTION A VIEW -->
+    <div id="optionA" class="view-container active">
+        <div style="flex: 1; overflow: hidden; display: flex; align-items: center;">
+            <div class="horizontal-track" id="horizontalTrack">
+                <div class="horizontal-card">
+                    <span class="card-tag">Stage 1 • Education</span>
+                    <h3 class="card-title">Law School Journey</h3>
+                    <p class="card-desc">Studying law, focusing on tech policy, contracts, and constitutional law.</p>
+                </div>
+                <div class="horizontal-card">
+                    <span class="card-tag">Stage 2 • Vibecoding</span>
+                    <h3 class="card-title">Custom Dashboard Project</h3>
+                    <p class="card-desc">Built a lightweight legal citation tracker using modern web standards.</p>
+                    <a href="#" class="card-link">View Code →</a>
+                </div>
+                <div class="horizontal-card">
+                    <span class="card-tag">Stage 3 • Substack</span>
+                    <h3 class="card-title">Writing on Legal Tech</h3>
+                    <p class="card-desc">Published articles exploring AI regulation and automated contracts.</p>
+                    <a href="#" class="card-link">Read Article →</a>
+                </div>
+                <div class="horizontal-card">
+                    <span class="card-tag">Stage 4 • Poetry</span>
+                    <h3 class="card-title">Selected Verses</h3>
+                    <p class="card-desc">A collection of modern poetry written during late nights at the library.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slider-control-container">
+            <label>Drag to traverse timeline</label>
+            <input type="range" id="sliderA" min="0" max="100" value="0" oninput="updateOptionA(this.value)">
+        </div>
+    </div>
+
+    <!-- OPTION B VIEW -->
+    <div id="optionB" class="view-container" style="overflow-y: auto;">
+        <div class="vertical-track">
+            <div class="vertical-card">
+                <span class="card-tag">Stage 1 • Education</span>
+                <h3 class="card-title">Law School Journey</h3>
+                <p class="card-desc">Studying law, focusing on tech policy, contracts, and constitutional law.</p>
+            </div>
+            <div class="vertical-card">
+                <span class="card-tag">Stage 2 • Vibecoding</span>
+                <h3 class="card-title">Custom Dashboard Project</h3>
+                <p class="card-desc">Built a lightweight legal citation tracker using modern web standards.</p>
+                <a href="#" class="card-link">View Code →</a>
+            </div>
+            <div class="vertical-card">
+                <span class="card-tag">Stage 3 • Substack</span>
+                <h3 class="card-title">Writing on Legal Tech</h3>
+                <p class="card-desc">Published articles exploring AI regulation and automated contracts.</p>
+                <a href="#" class="card-link">Read Article →</a>
+            </div>
+            <div class="vertical-card">
+                <span class="card-tag">Stage 4 • Poetry</span>
+                <h3 class="card-title">Selected Verses</h3>
+                <p class="card-desc">A collection of modern poetry written during late nights at the library.</p>
+            </div>
+        </div>
+        <div class="slider-control-container" style="position: sticky; bottom: 0;">
+            <label>Scroll or drag slider to guide path</label>
+            <input type="range" id="sliderB" min="0" max="100" value="0" oninput="updateOptionB(this.value)">
+        </div>
+    </div>
+
+    <!-- OPTION C VIEW -->
+    <div id="optionC" class="view-container" style="justify-content: center; align-items: center;">
+        <div class="dossier-container">
+            <div class="dossier-card active-chapter" id="chapter0">
+                <span class="card-tag">Chapter 1 of 4 • Education</span>
+                <h3 class="card-title">Law School Journey</h3>
+                <p class="card-desc">Studying law, focusing on tech policy, contracts, and constitutional law.</p>
+            </div>
+            <div class="dossier-card" id="chapter1">
+                <span class="card-tag">Chapter 2 of 4 • Vibecoding</span>
+                <h3 class="card-title">Custom Dashboard Project</h3>
+                <p class="card-desc">Built a lightweight legal citation tracker using modern web standards.</p>
+                <a href="#" class="card-link">View Code →</a>
+            </div>
+            <div class="dossier-card" id="chapter2">
+                <span class="card-tag">Chapter 3 of 4 • Substack</span>
+                <h3 class="card-title">Writing on Legal Tech</h3>
+                <p class="card-desc">Published articles exploring AI regulation and automated contracts.</p>
+                <a href="#" class="card-link">Read Article →</a>
+            </div>
+            <div class="dossier-card" id="chapter3">
+                <span class="card-tag">Chapter 4 of 4 • Poetry</span>
+                <h3 class="card-title">Selected Verses</h3>
+                <p class="card-desc">A collection of modern poetry written during late nights at the library.</p>
+            </div>
+        </div>
+        <div class="slider-control-container" style="width: 100%; margin-top: 2rem;">
+            <label id="chapterLabel">Chapter 1: Education</label>
+            <input type="range" id="sliderC" min="0" max="3" value="0" step="1" oninput="updateOptionC(this.value)">
+        </div>
+    </div>
+
+    <script>
+        // Tab switching logic
+        function switchTab(optionId) {
+            document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(optionId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Option A slider logic (Horizontal panning)
+        function updateOptionA(val) {
+            const track = document.getElementById('horizontalTrack');
+            const maxScroll = track.scrollWidth - track.parentElement.clientWidth;
+            const scrollAmount = (val / 100) * maxScroll;
+            track.style.transform = `translateX(-${scrollAmount}px)`;
+        }
+
+        // Option B slider logic (Vertical position shift)
+        function updateOptionB(val) {
+            const container = document.querySelector('#optionB');
+            const maxScroll = container.scrollHeight - container.clientHeight;
+            container.scrollTop = (val / 100) * maxScroll;
+        }
+
+        // Option C slider logic (Chapter flipping)
+        const chapterTitles = ["Education", "Vibecoding", "Substack", "Poetry"];
+        function updateOptionC(val) {
+            const index = parseInt(val);
+            document.querySelectorAll('.dossier-card').forEach((card, i) => {
+                if (i === index) {
+                    card.classList.add('active-chapter');
+                } else {
+                    card.classList.remove('active-chapter');
+                }
+            });
+            document.getElementById('chapterLabel').innerText = `Chapter ${index + 1}: ${chapterTitles[index]}`;
+        }
+    </script>
+</body>
+</html>

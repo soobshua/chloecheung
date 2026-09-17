@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Prototype - Law Student CV</title>
+    <title>Chloe Cheung — CV & Portfolio</title>
     <style>
         :root {
-            --bg-color: #0f1115;
-            --card-bg: #181c24;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --accent: #38bdf8;
-            --border: #2f3748;
+            --bg-start: #ffffff;
+            --bg-end: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --accent: #0284c7;
+            --border: #e2e8f0;
+            --line-color: #cbd5e1;
         }
 
         * {
@@ -22,19 +24,17 @@
         }
 
         body {
-            background-color: var(--bg-color);
+            background: linear-gradient(to bottom, var(--bg-start), var(--bg-end));
             color: var(--text-main);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
             overflow-x: hidden;
         }
 
-        /* Top Bar / Persistent Contact Links */
+        /* Persistent Header */
         header {
-            background: rgba(24, 28, 36, 0.9);
+            background: rgba(255, 255, 255, 0.9);
             border-bottom: 1px solid var(--border);
-            padding: 1rem 2rem;
+            padding: 1.25rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -42,14 +42,15 @@
             gap: 1rem;
             position: sticky;
             top: 0;
-            z-index: 100;
-            backdrop-filter: blur(8px);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
         }
 
         .profile-title h1 {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 600;
-            letter-spacing: -0.025em;
+            letter-spacing: -0.02em;
+            color: #0f172a;
         }
 
         .profile-title p {
@@ -59,7 +60,7 @@
 
         .contact-links {
             display: flex;
-            gap: 1rem;
+            gap: 1.25rem;
             flex-wrap: wrap;
         }
 
@@ -67,6 +68,7 @@
             color: var(--text-muted);
             text-decoration: none;
             font-size: 0.85rem;
+            font-weight: 500;
             transition: color 0.2s;
         }
 
@@ -74,157 +76,101 @@
             color: var(--accent);
         }
 
-        /* Prototype Layout Toggles */
-        .tab-bar {
-            background: #12151b;
-            padding: 0.75rem 2rem;
-            display: flex;
-            gap: 0.5rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .tab-btn {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-
-        .tab-btn.active {
-            background: var(--accent);
-            color: #000;
-            border-color: var(--accent);
-            font-weight: 600;
-        }
-
-        /* Main View Container */
-        .view-container {
-            flex: 1;
-            position: relative;
-            display: none;
-            padding: 2rem;
-            overflow: hidden;
-        }
-
-        .view-container.active {
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Slider Controls */
-        .slider-control-container {
-            padding: 1.5rem 2rem;
-            background: rgba(24, 28, 36, 0.5);
-            border-top: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .slider-control-container label {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        input[type="range"] {
-            width: 100%;
-            max-width: 600px;
-            accent-color: var(--accent);
-            cursor: pointer;
-        }
-
-        /* --- OPTION A: Horizontal Strip Styles --- */
-        .horizontal-track {
-            display: flex;
-            gap: 2rem;
-            transition: transform 0.3s ease-out;
-            align-items: center;
-            height: 100%;
-            padding-left: 2rem;
-            padding-right: 2rem;
-        }
-
-        .horizontal-card {
-            min-width: 300px;
-            max-width: 300px;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        /* --- OPTION B: Vertical Winding Path Styles --- */
-        .vertical-track {
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem 2rem 1rem;
             max-width: 600px;
             margin: 0 auto;
-            width: 100%;
-            position: relative;
-            padding: 2rem 0;
         }
 
-        .vertical-track::before {
+        .hero h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #0f172a;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Vertical Road Timeline */
+        .road-container {
+            max-width: 800px;
+            margin: 2rem auto 6rem auto;
+            position: relative;
+            padding: 0 1.5rem;
+        }
+
+        /* The central winding road line */
+        .road-container::before {
             content: '';
             position: absolute;
             left: 50%;
             top: 0;
             bottom: 0;
-            width: 2px;
-            background: var(--border);
+            width: 3px;
+            background: var(--line-color);
             transform: translateX(-50%);
+            border-radius: 3px;
         }
 
-        .vertical-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            width: 45%;
-            margin-bottom: 2rem;
+        .roadmap-node {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: calc(50% + 30px);
             position: relative;
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
         }
 
-        .vertical-card:nth-child(odd) {
-            margin-left: 0;
+        .roadmap-node.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .vertical-card:nth-child(even) {
-            margin-left: 55%;
+        .roadmap-node:nth-child(even) {
+            justify-content: flex-start;
+            padding-right: 0;
+            padding-left: calc(50% + 30px);
         }
 
-        /* --- OPTION C: Dossier / Chapter Flow Styles --- */
-        .dossier-container {
-            max-width: 700px;
-            margin: 0 auto;
-            width: 100%;
-            text-align: center;
+        /* Milestone Marker Node on the Road */
+        .roadmap-node::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 25px;
+            width: 14px;
+            height: 14px;
+            background: #ffffff;
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.1);
         }
 
-        .dossier-card {
+        .card {
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 2.5rem;
-            display: none;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            padding: 1.75rem;
+            width: 100%;
+            max-width: 360px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .dossier-card.active-chapter {
-            display: block;
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
         }
 
         .card-tag {
@@ -234,193 +180,230 @@
             letter-spacing: 0.1em;
             margin-bottom: 0.5rem;
             display: block;
+            font-weight: 600;
         }
 
         .card-title {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+            color: #0f172a;
+            font-weight: 600;
+        }
+
+        .card-date {
+            font-size: 0.8rem;
+            color: var(--text-muted);
             margin-bottom: 0.75rem;
+            font-weight: 500;
         }
 
         .card-desc {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             color: var(--text-muted);
-            line-height: 1.5;
-            margin-bottom: 1.25rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .card-desc ul {
+            padding-left: 1.1rem;
+            margin-top: 0.4rem;
+        }
+
+        .card-desc li {
+            margin-bottom: 0.4rem;
+        }
+
+        .card-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
         }
 
         .card-link {
-            display: inline-block;
             color: var(--accent);
             text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
+            font-size: 0.82rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
         }
 
         .card-link:hover {
             text-decoration: underline;
         }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .road-container::before {
+                left: 20px;
+            }
+            .roadmap-node, .roadmap-node:nth-child(even) {
+                justify-content: flex-start;
+                padding-right: 0;
+                padding-left: 50px;
+            }
+            .roadmap-node::after {
+                left: 20px;
+            }
+            .card {
+                max-width: 100%;
+            }
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Persistent Header with Permanent Links -->
+    <!-- Persistent Header -->
     <header>
         <div class="profile-title">
-            <h1>Your Name</h1>
-            <p>Law Student & Builder</p>
+            <h1>Chloe Cheung</h1>
+            <p>JD Candidate & Writer</p>
         </div>
         <div class="contact-links">
-            <a href="mailto:your.email@law.com">Email</a>
-            <a href="tel:+1234567890">Phone</a>
-            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+            <a href="tel:+85269393128">+852 6939 3128</a>
+            <a href="mailto:chloecheung1224@gmail.com">Email</a>
+            <a href="https://www.linkedin.com/in/chloe-cheung-oi-yui/" target="_blank">LinkedIn</a>
             <a href="https://github.com" target="_blank">GitHub</a>
-            <a href="https://substack.com" target="_blank">Substack</a>
+            <a href="https://open.substack.com/pub/undidactic" target="_blank">Substack</a>
         </div>
     </header>
 
-    <!-- Tab Selector -->
-    <div class="tab-bar">
-        <button class="tab-btn active" onclick="switchTab('optionA')">Option A: Horizontal Strip</button>
-        <button class="tab-btn" onclick="switchTab('optionB')">Option B: Vertical Path</button>
-        <button class="tab-btn" onclick="switchTab('optionC')">Option C: Dossier Flow</button>
+    <!-- Hero Section -->
+    <div class="hero">
+        <h2>Professional Journey</h2>
+        <p>Scroll down to walk through your education, legal practice, writing, vibecoded projects, and creative works.</p>
     </div>
 
-    <!-- OPTION A VIEW -->
-    <div id="optionA" class="view-container active">
-        <div style="flex: 1; overflow: hidden; display: flex; align-items: center;">
-            <div class="horizontal-track" id="horizontalTrack">
-                <div class="horizontal-card">
-                    <span class="card-tag">Stage 1 • Education</span>
-                    <h3 class="card-title">Law School Journey</h3>
-                    <p class="card-desc">Studying law, focusing on tech policy, contracts, and constitutional law.</p>
-                </div>
-                <div class="horizontal-card">
-                    <span class="card-tag">Stage 2 • Vibecoding</span>
-                    <h3 class="card-title">Custom Dashboard Project</h3>
-                    <p class="card-desc">Built a lightweight legal citation tracker using modern web standards.</p>
-                    <a href="#" class="card-link">View Code →</a>
-                </div>
-                <div class="horizontal-card">
-                    <span class="card-tag">Stage 3 • Substack</span>
-                    <h3 class="card-title">Writing on Legal Tech</h3>
-                    <p class="card-desc">Published articles exploring AI regulation and automated contracts.</p>
-                    <a href="#" class="card-link">Read Article →</a>
-                </div>
-                <div class="horizontal-card">
-                    <span class="card-tag">Stage 4 • Poetry</span>
-                    <h3 class="card-title">Selected Verses</h3>
-                    <p class="card-desc">A collection of modern poetry written during late nights at the library.</p>
-                </div>
-            </div>
-        </div>
-        <div class="slider-control-container">
-            <label>Drag to traverse timeline</label>
-            <input type="range" id="sliderA" min="0" max="100" value="0" oninput="updateOptionA(this.value)">
-        </div>
-    </div>
+    <!-- Winding Road Timeline -->
+    <div class="road-container">
 
-    <!-- OPTION B VIEW -->
-    <div id="optionB" class="view-container" style="overflow-y: auto;">
-        <div class="vertical-track">
-            <div class="vertical-card">
-                <span class="card-tag">Stage 1 • Education</span>
-                <h3 class="card-title">Law School Journey</h3>
-                <p class="card-desc">Studying law, focusing on tech policy, contracts, and constitutional law.</p>
-            </div>
-            <div class="vertical-card">
-                <span class="card-tag">Stage 2 • Vibecoding</span>
-                <h3 class="card-title">Custom Dashboard Project</h3>
-                <p class="card-desc">Built a lightweight legal citation tracker using modern web standards.</p>
-                <a href="#" class="card-link">View Code →</a>
-            </div>
-            <div class="vertical-card">
-                <span class="card-tag">Stage 3 • Substack</span>
-                <h3 class="card-title">Writing on Legal Tech</h3>
-                <p class="card-desc">Published articles exploring AI regulation and automated contracts.</p>
-                <a href="#" class="card-link">Read Article →</a>
-            </div>
-            <div class="vertical-card">
-                <span class="card-tag">Stage 4 • Poetry</span>
-                <h3 class="card-title">Selected Verses</h3>
-                <p class="card-desc">A collection of modern poetry written during late nights at the library.</p>
+        <!-- Stage 1: Education (CUHK & Copenhagen) -->
+        <div class="roadmap-node">
+            <div class="card">
+                <span class="card-tag">Education</span>
+                <h3 class="card-title">CUHK & University of Copenhagen</h3>
+                <div class="card-date">2023 – 2028</div>
+                <div class="card-desc">
+                    <ul>
+                        <li><strong>The Chinese University of Hong Kong:</strong> Juris Doctor (JD) | 2026–2028[cite: 1]. Enrolled electives: Corporate Insolvency and Insurance Law[cite: 1].</li>
+                        <li><strong>The University of Copenhagen:</strong> Study Abroad | 2023–2024[cite: 1].</li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="slider-control-container" style="position: sticky; bottom: 0;">
-            <label>Scroll or drag slider to guide path</label>
-            <input type="range" id="sliderB" min="0" max="100" value="0" oninput="updateOptionB(this.value)">
-        </div>
-    </div>
 
-    <!-- OPTION C VIEW -->
-    <div id="optionC" class="view-container" style="justify-content: center; align-items: center;">
-        <div class="dossier-container">
-            <div class="dossier-card active-chapter" id="chapter0">
-                <span class="card-tag">Chapter 1 of 4 • Education</span>
-                <h3 class="card-title">Law School Journey</h3>
-                <p class="card-desc">Studying law, focusing on tech policy, contracts, and constitutional law.</p>
-            </div>
-            <div class="dossier-card" id="chapter1">
-                <span class="card-tag">Chapter 2 of 4 • Vibecoding</span>
-                <h3 class="card-title">Custom Dashboard Project</h3>
-                <p class="card-desc">Built a lightweight legal citation tracker using modern web standards.</p>
-                <a href="#" class="card-link">View Code →</a>
-            </div>
-            <div class="dossier-card" id="chapter2">
-                <span class="card-tag">Chapter 3 of 4 • Substack</span>
-                <h3 class="card-title">Writing on Legal Tech</h3>
-                <p class="card-desc">Published articles exploring AI regulation and automated contracts.</p>
-                <a href="#" class="card-link">Read Article →</a>
-            </div>
-            <div class="dossier-card" id="chapter3">
-                <span class="card-tag">Chapter 4 of 4 • Poetry</span>
-                <h3 class="card-title">Selected Verses</h3>
-                <p class="card-desc">A collection of modern poetry written during late nights at the library.</p>
+        <!-- Stage 2: Huron at Western University & Honors -->
+        <div class="roadmap-node">
+            <div class="card">
+                <span class="card-tag">Undergraduate & Honors</span>
+                <h3 class="card-title">Huron at Western University</h3>
+                <div class="card-date">2020 – 2025</div>
+                <div class="card-desc">
+                    <ul>
+                        <li>Bachelor of Arts, Double Major in Philosophy and Global Great Books (English Lit), Minor in History[cite: 1]. Graduated with distinction (89% cumulative average)[cite: 1].</li>
+                        <li><strong>Benno Schachter Memorial Prize in Philosophy (2023–2024):</strong> Awarded to 1 student per year[cite: 1].</li>
+                        <li><strong>Godsoe Family Scholarship of Distinction (2022–2024):</strong> Awarded based on academic excellence[cite: 1].</li>
+                        <li><strong>Global Great Books Second Year Award of Excellence (2022–2023)[cite: 1].</strong></li>
+                        <li><strong>Huron Scholarship of Excellence (2021–2024)[cite: 1] & Dean’s Honour List (2021–2023)[cite: 1].</strong></li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="slider-control-container" style="width: 100%; margin-top: 2rem;">
-            <label id="chapterLabel">Chapter 1: Education</label>
-            <input type="range" id="sliderC" min="0" max="3" value="0" step="1" oninput="updateOptionC(this.value)">
+
+        <!-- Stage 3: Substack & Publications -->
+        <div class="roadmap-node">
+            <div class="card">
+                <span class="card-tag">Substack & Publications</span>
+                <h3 class="card-title">Writing at @undidactic & Grubstreet</h3>
+                <div class="card-date">2021 – Present</div>
+                <div class="card-desc">
+                    <ul>
+                        <li>Authored analytical essays and case commentaries on contemporary legal issues and policy shifts at <strong>@undidactic</strong>[cite: 1].</li>
+                        <li>Former Writer at Grubstreet (National Archives recognised publication)[cite: 1].</li>
+                    </ul>
+                </div>
+                <div class="card-links">
+                    <a href="https://open.substack.com/pub/undidactic" target="_blank" class="card-link">Visit Substack →</a>
+                </div>
+            </div>
         </div>
+
+        <!-- Stage 4: Experience & Certifications -->
+        <div class="roadmap-node">
+            <div class="card">
+                <span class="card-tag">Experience & Practice</span>
+                <h3 class="card-title">Advisory & Legal Virtual Programs</h3>
+                <div class="card-date">2024 – Present</div>
+                <div class="card-desc">
+                    <ul>
+                        <li><strong>Academic Consultant & Tutor:</strong> Built a referral-based portfolio of 8 clients with a 100% renewal rate[cite: 1].</li>
+                        <li><strong>English Storytelling Teacher:</strong> Po Leung Kuk and Sprouts Foundation (Oct 2024–Jul 2025)[cite: 1].</li>
+                        <li><strong>Forage Certifications:</strong> Litigation, Commercial Law, Patent Strategy (Morrison Foerster, Bird & Bird, Clifford Chance, HSF)[cite: 1].</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stage 5: Vibecoded Projects -->
+        <div class="roadmap-node">
+            <div class="card">
+                <span class="card-tag">Vibecoded Projects</span>
+                <h3 class="card-title">Custom Web Experiments</h3>
+                <div class="card-date">Recent Work</div>
+                <div class="card-desc">
+                    Designed and vibecoded interactive web applications, lightweight portfolios, and creative browser tools built with clean CSS/JS architecture.
+                </div>
+                <div class="card-links">
+                    <a href="https://github.com" target="_blank" class="card-link">View Repos on GitHub →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stage 6: Literary Works & Hobbies -->
+        <div class="roadmap-node">
+            <div class="card">
+                <span class="card-tag">Creative Writing & Hobbies</span>
+                <h3 class="card-title">Stories, Poetry & Interests</h3>
+                <div class="card-date">2022 – Present</div>
+                <div class="card-desc">
+                    <ul>
+                        <li>Short story: <a href="https://www.linkedin.com/safety/go/?url=https%3A%2F%2Fhuronliterarymag%2Ewixsite%2Ecom%2Fhuron-literary-mag%2Fblank-1&urlhash=fZC6&mt=yM5BWykd8YjccM3eyTOxCPbbhJe0KlWc0ni3MLjWCm1iLgD4_mucXy4aVaMG0-my9tEu0l6B3hB0SMkriiYEQLSjY_4&isSdui=true" target="_blank" style="color: var(--accent); text-decoration: underline;">"Sin and Salvation"</a> (2022, Huron Literary Magazine).</li>
+                        <li>Poem: <a href="https://drive.google.com/drive/folders/19_e40i3U0jGPbmLOtEkM-nUcNfKAVzWc" target="_blank" style="color: var(--accent); text-decoration: underline;">"Polaroid Love"</a> (2022).</li>
+                        <li>Poem: <a href="https://drive.google.com/file/d/1Lbq4UKZMxPdZZH0xYlJ8e8LiqobCLPJM/view" target="_blank" style="color: var(--accent); text-decoration: underline;">"It's Time to Go"</a> (2023, Grubstreet)[cite: 1].</li>
+                        <li>Curating a home library, practicing traditional calligraphy, and enjoying specialty coffee.</li>
+                    </ul>
+                </div>
+                <div class="card-links">
+                    <a href="https://www.linkedin.com/in/chloe-cheung-oi-yui/" target="_blank" class="card-link">View LinkedIn Profile →</a>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        // Tab switching logic
-        function switchTab(optionId) {
-            document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            
-            document.getElementById(optionId).classList.add('active');
-            event.target.classList.add('active');
-        }
+        // Scroll animation observer for roadmap nodes
+        const observerOptions = {
+            threshold: 0.2
+        };
 
-        // Option A slider logic (Horizontal panning)
-        function updateOptionA(val) {
-            const track = document.getElementById('horizontalTrack');
-            const maxScroll = track.scrollWidth - track.parentElement.clientWidth;
-            const scrollAmount = (val / 100) * maxScroll;
-            track.style.transform = `translateX(-${scrollAmount}px)`;
-        }
-
-        // Option B slider logic (Vertical position shift)
-        function updateOptionB(val) {
-            const container = document.querySelector('#optionB');
-            const maxScroll = container.scrollHeight - container.clientHeight;
-            container.scrollTop = (val / 100) * maxScroll;
-        }
-
-        // Option C slider logic (Chapter flipping)
-        const chapterTitles = ["Education", "Vibecoding", "Substack", "Poetry"];
-        function updateOptionC(val) {
-            const index = parseInt(val);
-            document.querySelectorAll('.dossier-card').forEach((card, i) => {
-                if (i === index) {
-                    card.classList.add('active-chapter');
-                } else {
-                    card.classList.remove('active-chapter');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
             });
-            document.getElementById('chapterLabel').innerText = `Chapter ${index + 1}: ${chapterTitles[index]}`;
-        }
+        }, observerOptions);
+
+        document.querySelectorAll('.roadmap-node').forEach(node => {
+            observer.observe(node);
+        });
     </script>
 </body>
 </html>
